@@ -22,6 +22,7 @@ const int led = BUILTIN_LED;
 String rowDiv = "    <div class=\"row\" style=\"padding-bottom:1em\">\n";
 String endDiv = "    </div>\n";
 
+// Buttons are using the bootstrap grid for sizing - http://getbootstrap.com/css/#grid
 String generateButton(String colSize, String id, String text, String url) {
 
   return  "<div class=\"" + colSize + "\" style=\"text-align: center\">\n" +
