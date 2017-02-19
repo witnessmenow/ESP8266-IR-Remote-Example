@@ -8,6 +8,8 @@
 
 #define IR_SEND_PIN D2
 
+#define DELAY_BETWEEN_COMMANDS 1000
+
 IRsend irsend(IR_SEND_PIN);
 
 const char* ssid = "SSID";
@@ -39,21 +41,44 @@ void handleRoot() {
   website = website + "  </head>\n";
   website = website + "  <body>\n";
   website = website + "    <div class=\"container-fluid\">\n";
+  // ------------------------- Power Controls --------------------------
   website = website + rowDiv;
-  website = website + generateButton("col-xs-6", "tvpower","TV Power", "tvpower");
-  website = website + generateButton("col-xs-6", "sspower","SS Power", "sspower");
+  website = website + generateButton("col-xs-4", "tvpower","TV Power", "tvpower");
+  website = website + generateButton("col-xs-4", "sspower","SS Power", "sspower");
+  website = website + generateButton("col-xs-4", "satpower","Sat Power", "satpower");
   website = website + endDiv;
+  // ------------------------- Channel Controls --------------------------
   website = website + rowDiv;
   website = website + generateButton("col-xs-3", "sschannel1","PS4", "sschannel1");
   website = website + generateButton("col-xs-3", "sschannel2","FTV", "sschannel2");
-  website = website + generateButton("col-xs-3", "sschannel3","---", "sschannel3");
+  //website = website + generateButton("col-xs-3", "sschannel3","---", "sschannel3");
   website = website + generateButton("col-xs-3", "sschannel4","SAT", "sschannel4");
+  website = website + generateButton("col-xs-3", "sstvsound","TVS", "sstvsound");
   website = website + endDiv;
+  // ------------------------- Volume Controls --------------------------
   website = website + rowDiv;
   website = website + generateButton("col-xs-12", "up","Vol Up", "up");
   website = website + endDiv;
   website = website + rowDiv;
   website = website + generateButton("col-xs-12", "down","Vol Down", "down");
+  website = website + endDiv;
+  // ------------------------- Satelite Controls --------------------------
+  // Not working well
+//  website = website + rowDiv;
+//  website = website + generateButton("col-xs-offset-4 col-xs-4", "satup","Sat Up", "satup");
+//  website = website + generateButton("col-xs-4", "satblue","Sat Blue", "satblue");
+//  website = website + endDiv;
+//  website = website + rowDiv;
+//  website = website + generateButton("col-xs-4", "satexit","Sat Exit", "satexit");
+//  website = website + generateButton("col-xs-4", "satdown","Sat Down", "satdown");
+//  website = website + generateButton("col-xs-4", "satok","Sat Ok", "satok");
+//  website = website + endDiv;
+  // ------------------------- Chromecast --------------------------
+  website = website + rowDiv;
+  website = website + generateButton("col-xs-12", "chromecast","Chromecast", "chromecast");
+  website = website + endDiv;
+  website = website + rowDiv;
+  website = website + generateButton("col-xs-12", "togglesource","TV Source", "togglesource");
   website = website + endDiv;
   website = website + endDiv;
   website = website + "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js\"></script>\n";
@@ -122,7 +147,7 @@ void setup(void){
 
   server.on("/sspower", [](){
     Serial.println("Sorround Sound power");
-    irsend.sendNEC(0x4B3420DF, 32);
+    irsend.sendNEC(0x4B36D32C, 32);
     server.send(200, "text/plain", "Sorround Sound power");
   });
 
@@ -160,6 +185,66 @@ void setup(void){
     Serial.println("TV power");
     irsend.sendNEC(0x20DF10EF, 32);
     server.send(200, "text/plain", "TV power");
+  });
+
+  server.on("/tvsource", [](){
+    Serial.println("TV Source");
+    irsend.sendNEC(0x20DFD02F, 32);
+    server.send(200, "text/plain", "TV Source");
+  });
+
+  server.on("/togglesource", [](){
+    Serial.println("TV Source");
+    irsend.sendNEC(0x20DFD02F, 32);
+    delay(DELAY_BETWEEN_COMMANDS);
+    irsend.sendNEC(0x20DFD02F, 32);
+    server.send(200, "text/plain", "TV Source");
+  });
+
+  server.on("/satpower", [](){
+    Serial.println("Sat Power");
+    irsend.sendNEC(0xA25D7887, 32);
+    server.send(200, "text/plain", "Sat Power");
+  });
+
+  server.on("/satok", [](){
+    Serial.println("Sat Ok");
+    irsend.sendNEC(0xA25DFA05, 32);
+    server.send(200, "text/plain", "Sat Ok");
+  });
+
+  server.on("/satexit", [](){
+    Serial.println("Sat Exit");
+    irsend.sendNEC(0xA25D06F9, 32);
+    server.send(200, "text/plain", "Sat Exit");
+  });
+
+  server.on("/satup", [](){
+    Serial.println("Sat UP");
+    irsend.sendNEC(0xA25DC03F, 32);
+    server.send(200, "text/plain", "Sat UP");
+  });
+
+  server.on("/satdown", [](){
+    Serial.println("Sat Down");
+    irsend.sendNEC(0xA25D7A85, 32);
+    server.send(200, "text/plain", "Sat Down");
+  });
+
+  server.on("/satblue", [](){
+    Serial.println("Sat Blue");
+    irsend.sendNEC(0xA25D52AD, 32);
+    server.send(200, "text/plain", "Sat Blue");
+  });
+
+  server.on("/chromecast", [](){
+    Serial.println("Chromecast");
+    irsend.sendNEC(0x20DFD02F, 32);
+    delay(DELAY_BETWEEN_COMMANDS);
+    irsend.sendNEC(0x20DFD02F, 32);
+    delay(DELAY_BETWEEN_COMMANDS);
+    irsend.sendNEC(0x4BB6906F, 32);
+    server.send(200, "text/plain", "Chromecast");
   });
 
 
