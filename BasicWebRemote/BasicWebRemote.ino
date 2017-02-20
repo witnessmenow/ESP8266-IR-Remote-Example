@@ -129,7 +129,7 @@ void setup(void){
   Serial.println(WiFi.localIP());
 
   if (MDNS.begin("esp8266")) {
-    Serial.println("MDNS responder started");
+    Serial.println("MDNS Responder Started");
   }
 
   server.on("/", handleRoot);
@@ -141,51 +141,51 @@ void setup(void){
   });
 
   server.on("/up", [](){
-    Serial.println("Sorround Sound Up");
+    Serial.println("Surround Sound Up");
     irsend.sendNEC(0x4BB640BF, 32);
     server.send(200, "text/plain", "Volume Up");
   });
 
   server.on("/sspower", [](){
-    Serial.println("Sorround Sound power");
+    Serial.println("Surround Sound power");
     irsend.sendNEC(0x4B36D32C, 32);
-    server.send(200, "text/plain", "Sorround Sound power");
+    server.send(200, "text/plain", "Surround Sound Power");
   });
 
   server.on("/sschannel1", [](){
-    Serial.println("Sorround Sound Channel 1");
+    Serial.println("Surround Sound Channel 1");
     irsend.sendNEC(0x4B3631CE, 32);
-    server.send(200, "text/plain", "Sorround Sound Channel 1");
+    server.send(200, "text/plain", "Surround Sound Channel 1");
   });
 
   server.on("/sschannel2", [](){
-    Serial.println("Sorround Sound Channel 2");
+    Serial.println("Surround Sound Channel 2");
     irsend.sendNEC(0x4BB6F00F, 32);
-    server.send(200, "text/plain", "Sorround Sound Channel 2");
+    server.send(200, "text/plain", "Surround Sound Channel 2");
   });
 
   server.on("/sschannel3", [](){
-    Serial.println("Sorround Sound Channel 3");
+    Serial.println("Surround Sound Channel 3");
     irsend.sendNEC(0x4BB6708F, 32);
-    server.send(200, "text/plain", "Sorround Sound Channel 3");
+    server.send(200, "text/plain", "Surround Sound Channel 3");
   });
 
   server.on("/sschannel4", [](){
-    Serial.println("Sorround Sound Channel 4");
+    Serial.println("Surround Sound Channel 4");
     irsend.sendNEC(0x4BB6B04F, 32);
-    server.send(200, "text/plain", "Sorround Sound Channel 4");
+    server.send(200, "text/plain", "Surround Sound Channel 4");
   });
 
   server.on("/sstvsound", [](){
-    Serial.println("Sorround Sound sstvsound");
+    Serial.println("Surround Sound sstvsound");
     irsend.sendNEC(0x4BB6906F, 32);
-    server.send(200, "text/plain", "Sorround Sound sstvsound");
+    server.send(200, "text/plain", "Surround Sound sstvsound");
   });
 
   server.on("/tvpower", [](){
     Serial.println("TV power");
     irsend.sendNEC(0x20DF10EF, 32);
-    server.send(200, "text/plain", "TV power");
+    server.send(200, "text/plain", "TV Power");
   });
 
   server.on("/tvsource", [](){
@@ -211,7 +211,7 @@ void setup(void){
   server.on("/satok", [](){
     Serial.println("Sat Ok");
     irsend.sendNEC(0xA25DFA05, 32);
-    server.send(200, "text/plain", "Sat Ok");
+    server.send(200, "text/plain", "Sat OK");
   });
 
   server.on("/satexit", [](){
@@ -252,7 +252,7 @@ void setup(void){
   server.onNotFound(handleNotFound);
 
   server.begin();
-  Serial.println("HTTP server started");
+  Serial.println("HTTP Server Started");
 }
 
 void loop(void){
