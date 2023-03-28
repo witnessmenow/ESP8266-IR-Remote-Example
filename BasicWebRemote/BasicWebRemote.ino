@@ -135,7 +135,7 @@ void setup(void){
   server.on("/", handleRoot);
 
   server.on("/down", [](){
-    Serial.println("Sorround Sound Down");
+    Serial.println("Surround Sound Down");
     irsend.sendNEC(0x4BB6C03F, 32);
     server.send(200, "text/plain", "Volume Down");
   });
